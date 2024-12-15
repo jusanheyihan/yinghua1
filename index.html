@@ -1172,18 +1172,46 @@
 			})(window, "equestAnimationFrame");
 
 		</script>
-		</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+</head>
+<body>
 <div class="container">
-<audio id='audio' src="https://music.163.com/song/media/outer/url?id=2642500476.mp3"></audio>
-<audio id='audio' src="https://music.163.com/song/media/outer/url?id=1377530437.mp3"></audio>
-<script>//解决谷歌浏览器音乐不能自动播放的问题，
-function musicAutoPlay(){
-    let music = document.getElementById('audio')//获取audio
-    if (music.paused) {//判断一下paused（pused为真是禁用的）
-        music.play()//调用播放
+    <audio id="audio1" src="https://music.163.com/song/media/outer/url?id=2642500476.mp3"></audio>
+    <audio id="audio2" src="https://music.163.com/song/media/outer/url?id=1377530437.mp3"></audio>
+</div>
+<script>
+// 解决谷歌浏览器音乐不能自动播放的问题，并实现自动播放下一首
+function musicAutoPlay() {
+    const audios = document.querySelectorAll('audio');
+    let currentAudio = audios[0]; // 默认播放第一首音乐
+
+    function playNext() {
+        if (currentAudio.ended) {
+            let nextAudio = audios[(audios.indexOf(currentAudio) + 1) % audios.length];
+            nextAudio.play();
+            currentAudio = nextAudio;
+        }
     }
+
+    currentAudio.play().catch(() => {
+        // 如果第一首音乐无法播放，尝试播放第二首
+        currentAudio = audios[1];
+        currentAudio.play().catch(() => {
+            console.error('Both audios failed to play.');
+        });
+    });
+
+    setInterval(playNext, 10); // 每10毫秒检查是否需要播放下一首
 }
-setInterval("musicAutoPlay()", 10);//必须使用一个时间函数 ，不触发的情况下还是报错//
+musicAutoPlay();
 </script>
+</body>
+</html>
+
 	</body>
 </html>
