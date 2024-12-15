@@ -1185,14 +1185,13 @@
     <audio id="audio2" src="https://music.163.com/song/media/outer/url?id=2642500476.mp3"></audio>
     <audio id="audio3" src="https://music.163.com/song/media/outer/url?id=1377530437.mp3"></audio>
     <audio id="audio4" src="http://music.163.com/song/media/outer/url?id=2650554440.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=1981292963.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=502678329.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=400161903.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=33922813.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=2653428937.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=1302084497.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=1883041139.mp3"></audio>
-
+    <audio id="audio5" src="http://music.163.com/song/media/outer/url?id=1981292963.mp3"></audio>
+    <audio id="audio6" src="http://music.163.com/song/media/outer/url?id=502678329.mp3"></audio>
+    <audio id="audio7" src="http://music.163.com/song/media/outer/url?id=400161903.mp3"></audio>
+    <audio id="audio8" src="http://music.163.com/song/media/outer/url?id=33922813.mp3"></audio>
+    <audio id="audio9" src="http://music.163.com/song/media/outer/url?id=2653428937.mp3"></audio>
+    <audio id="audio10" src="http://music.163.com/song/media/outer/url?id=1302084497.mp3"></audio>
+    <audio id="audio11" src="http://music.163.com/song/media/outer/url?id=1883041139.mp3"></audio>
 </div>
 <script>
 function musicAutoPlay() {
@@ -1201,28 +1200,28 @@ function musicAutoPlay() {
 
     function playRandom() {
         // 随机选择一个音频文件播放
-        let randomIndex = Math.floor(Math.random() * audios.length);
-        while (randomIndex === currentAudioIndex) {
+        let randomIndex;
+        do {
             randomIndex = Math.floor(Math.random() * audios.length);
-        }
+        } while (randomIndex === currentAudioIndex);
         currentAudioIndex = randomIndex;
-        audios[randomIndex].play().catch(() => {
+        const audio = audios[randomIndex];
+        audio.play().catch(() => {
             console.error('Failed to play audio at index:', randomIndex);
+            // 如果当前音频无法播放，则尝试播放下一个随机音频
+            playRandom();
         });
     }
 
     // 尝试播放随机音乐
     playRandom();
 
-    // 设置定时器，每10毫秒检查是否需要播放下一首
-    setInterval(() => {
-        for (let i = 0; i < audios.length; i++) {
-            if (audios[i].ended) {
-                playRandom();
-                break;
-            }
-        }
-    }, 10);
+    // 为每个音频添加ended事件监听器，以便在音乐结束后播放下一首
+    audios.forEach((audio, index) => {
+        audio.addEventListener('ended', () => {
+            playRandom();
+        });
+    });
 }
 
 // 页面加载完成后自动播放音乐
