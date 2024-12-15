@@ -1172,17 +1172,52 @@
 			})(window, "equestAnimationFrame");
 
 		</script>
-		</script>
+	</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Auto Play</title>
+</head>
+<body>
 <div class="container">
-<audio id='audio' src="https://music.163.com/song/media/outer/url?id=2642500476.mp3"></audio>
-<script>//解决谷歌浏览器音乐不能自动播放的问题，
-function musicAutoPlay(){
-    let music = document.getElementById('audio')//获取audio
-    if (music.paused) {//判断一下paused（pused为真是禁用的）
-        music.play()//调用播放
+    <audio id='audio' src="" preload="auto"></audio>
+</div>
+<script>
+// 音乐列表
+const musicList = [
+    "https://music.163.com/song/media/outer/url?id=2642500476.mp3",
+    // 在这里添加更多的音乐链接
+];
+
+let currentMusicIndex = 0; // 当前音乐的索引
+
+// 解决谷歌浏览器音乐不能自动播放的问题
+function musicAutoPlay() {
+    let music = document.getElementById('audio'); // 获取audio
+    if (music.paused) {
+        music.play(); // 调用播放
     }
 }
-setInterval("musicAutoPlay()", 10);//必须使用一个时间函数 ，不触发的情况下还是报错//
+
+// 当音乐播放结束时，自动播放下一首
+function playNextMusic() {
+    currentMusicIndex++; // 移动到下一首音乐的索引
+    if (currentMusicIndex >= musicList.length) {
+        currentMusicIndex = 0; // 如果超出列表长度，回到第一首
+    }
+    let nextMusicSrc = musicList[currentMusicIndex];
+    document.getElementById('audio').src = nextMusicSrc; // 更新音乐源
+    musicAutoPlay(); // 尝试自动播放
+}
+
+// 设置音乐播放结束时的事件监听
+document.getElementById('audio').addEventListener('ended', playNextMusic);
+
+// 必须使用一个时间函数，不触发的情况下还是报错
+setInterval(musicAutoPlay, 10); // 直接传递函数名
 </script>
-	</body>
+</body>
 </html>
