@@ -1181,36 +1181,40 @@
 </head>
 <body>
 <div class="container">
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=2619523564.mp3"></audio>
-    <audio id="audio1" src="https://music.163.com/song/media/outer/url?id=2642500476.mp3"></audio>
-    <audio id="audio2" src="https://music.163.com/song/media/outer/url?id=1377530437.mp3"></audio>
-    <audio id="audio2" src="http://music.163.com/song/media/outer/url?id=2650554440.mp3"></audio>
-
+    <audio id="audio1" src="http://music.163.com/song/media/outer/url?id=2619523564.mp3"></audio>
+    <audio id="audio2" src="https://music.163.com/song/media/outer/url?id=2642500476.mp3"></audio>
+    <audio id="audio3" src="https://music.163.com/song/media/outer/url?id=1377530437.mp3"></audio>
+    <audio id="audio4" src="http://music.163.com/song/media/outer/url?id=2650554440.mp3"></audio>
 </div>
 <script>
-// 解决谷歌浏览器音乐不能自动播放的问题，并实现自动播放下一首
 function musicAutoPlay() {
     const audios = document.querySelectorAll('audio');
-    let currentAudioIndex = 0; // 默认播放第一首音乐
+    let currentAudioIndex = -1; // 初始化为-1，因为第一次播放时需要随机选择
 
-    function playNext() {
-        if (audios[currentAudioIndex].ended) {
-            currentAudioIndex = (currentAudioIndex + 1) % audios.length;
-            audios[currentAudioIndex].play();
+    function playRandom() {
+        // 随机选择一个音频文件播放
+        let randomIndex = Math.floor(Math.random() * audios.length);
+        while (randomIndex === currentAudioIndex) {
+            randomIndex = Math.floor(Math.random() * audios.length);
         }
+        currentAudioIndex = randomIndex;
+        audios[randomIndex].play().catch(() => {
+            console.error('Failed to play audio at index:', randomIndex);
+        });
     }
 
-    // 尝试播放第一首音乐
-    audios[currentAudioIndex].play().catch(() => {
-        // 如果第一首音乐无法播放，尝试播放第二首
-        currentAudioIndex = 1;
-        audios[currentAudioIndex].play().catch(() => {
-            console.error('Both audios failed to play.');
-        });
-    });
+    // 尝试播放随机音乐
+    playRandom();
 
     // 设置定时器，每10毫秒检查是否需要播放下一首
-    setInterval(playNext, 10);
+    setInterval(() => {
+        for (let i = 0; i < audios.length; i++) {
+            if (audios[i].ended) {
+                playRandom();
+                break;
+            }
+        }
+    }, 10);
 }
 
 // 页面加载完成后自动播放音乐
@@ -1218,6 +1222,7 @@ document.addEventListener('DOMContentLoaded', musicAutoPlay);
 </script>
 </body>
 </html>
+
 
 
 	</body>
