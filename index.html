@@ -68,14 +68,16 @@
 				</nav>
 			</header>
 			<!-- Footer -->
-			<footer id="footer">
-				<p class="copyright">
-					您的IP：
-					<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
-					<script type="text/javascript">
-						document.write(returnCitySN["cip"]);
-					</script>
-				</p>
+<footer id="footer">
+    <p class="copyright">
+        您的IP：
+        <script type="text/javascript">
+            fetch('http://ipinfo.io/ip')
+                .then(response => response.text())
+                .then(data => document.write(data));
+        </script>
+    </p>
+</footer>
 				<p class="copyright">
 					<script>
 						var mydate = new Date();
