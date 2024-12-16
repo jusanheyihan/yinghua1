@@ -90,6 +90,24 @@
 
 
 
+<!-- Footer -->
+<footer id="footer">
+    <p class="copyright">
+        您的IP：<span id="ipAddress"></span>
+        <script type="text/javascript">
+            // 使用fetch API获取IP地址
+            fetch('https://icanhazip.com')
+                .then(response => response.text()) // 将响应转换为文本
+                .then(data => {
+                    document.getElementById('ipAddress').innerHTML = data; // 将获取到的IP地址写入指定元素
+                })
+                .catch(error => {
+                    console.error('获取IP地址失败:', error); // 处理错误情况
+                    document.getElementById('ipAddress').innerHTML = '获取IP地址失败';
+                });
+        </script>
+    </p>
+</footer>
 
 
 
