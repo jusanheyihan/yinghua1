@@ -67,17 +67,15 @@
 					</ul>
 				</nav>
 			</header>
-			<!-- Footer -->
-<footer id="footer">
-    <p class="copyright">
-        您的IP：
-        <script type="text/javascript">
-            fetch('path/to/your/php/script.php')
-                .then(response => response.text())
-                .then(data => document.write(data));
-        </script>
-    </p>
-</footer>
+<!-- Footer -->
+			<footer id="footer">
+				<p class="copyright">
+					您的IP：
+					<script src="http://ipinfo.io/ip"></script>
+					<script type="text/javascript">
+						document.write(returnCitySN["cip"]);
+					</script>
+				</p>
 				<p class="copyright">
 					<script>
 						var mydate = new Date();
