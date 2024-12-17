@@ -90,42 +90,6 @@
 
 
 
-<!-- Footer -->
-<footer id="footer">
-    <p class="copyright">
-        您的IP：<span id="ipAddress"></span>
-        <script type="text/javascript">
-            // 确保DOM完全加载后再执行脚本
-            window.onload = function() {
-                // 使用fetch API获取IP地址
-                fetch('https://icanhazip.com', { mode: 'no-cors' })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        // 由于no-cors模式下，JavaScript不能读取response的内容，所以这里需要服务端支持
-                        // 如果服务端支持CORS，可以移除{ mode: 'no-cors' }并直接读取data
-                        document.getElementById('ipAddress').textContent = data.trim(); // 使用textContent而不是innerHTML
-                    })
-                    .catch(error => {
-                        console.error('获取IP地址失败:', error);
-                        document.getElementById('ipAddress').textContent = '获取IP地址失败';
-                    });
-            };
-        </script>
-    </p>
-</footer>
-
-
-
-
-
-
-
-
 				
 			</footer>
 		</div>
